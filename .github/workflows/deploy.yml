@@ -10,10 +10,6 @@ concurrency:
   group: deploy-${{ github.ref }}
   cancel-in-progress: true
 
-env:
-  # A Cloudflare account id is a public identifier, not a credential.
-  CF_ACCOUNT_ID: 5fb799ad908dac71a424e363119d6953
-
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -36,10 +32,10 @@ jobs:
 
       - name: Check Cloudflare credentials
         env:
-          CF_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CF_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN || secrets.CLOUDFLARE }}
         run: |
           if [ -z "$CF_TOKEN" ]; then
-            echo "::error::Add a CLOUDFLARE_API_TOKEN repository secret (Cloudflare dashboard -> My Profile -> API Tokens, permission: Workers Scripts -> Edit)."
+            echo "::error::Add a CLOUDFLARE_API_TOKEN repository secret: Cloudflare dashboard -> My Profile -> API Tokens -> Create Token (Workers Scripts: Edit)."
             exit 1
           fi
 
@@ -50,13 +46,13 @@ jobs:
             https://api.cloudflare.com/client/v4/user/tokens/verify || echo 000)
 
           if [ "$STATUS" != "200" ]; then
-            echo "::error::Cloudflare rejected CLOUDFLARE_API_TOKEN (HTTP $STATUS). Create a fresh token and paste only its value, with no account id, labels or line breaks."
+            echo "::error::Cloudflare rejected the token (HTTP $STATUS). Paste only the token value, without the account id, labels or line breaks."
             head -c 500 /tmp/verify.json || true
             exit 1
           fi
 
       - name: Deploy to Cloudflare
         env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID || env.CF_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN || secrets.CLOUDFLARE }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID || '5fb799ad908dac71a424e363119d6953' }}
         run: bunx wrangler deploy
