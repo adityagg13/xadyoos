@@ -31,27 +31,47 @@ jobs:
         run: bun run build
 
       - name: Resolve Cloudflare credentials
+        env:
+          RAW_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN || secrets.CLOUDFLARE }}
+          RAW_ACCOUNT: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: |
-          TOKEN="${{ secrets.CLOUDFLARE_API_TOKEN || secrets.CLOUDFLARE }}"
+          set -uo pipefail
+
+          TOKEN=""
+          ACCOUNT="${RAW_ACCOUNT//[[:space:]]/}"
+
+          # A single secret may hold both values on separate lines: the API token
+          # and the 32 hex character account id. Split them, whichever way round.
+          while IFS= read -r line; do
+            line="${line//[[:space:]]/}"
+            [ -z "$line" ] && continue
+            if [ -z "$ACCOUNT" ] && [[ "$line" =~ ^[0-9a-f]{32}$ ]]; then
+              ACCOUNT="$line"
+            elif [ -z "$TOKEN" ]; then
+              TOKEN="$line"
+            fi
+          done <<< "${RAW_TOKEN}"
+
           if [ -z "$TOKEN" ]; then
-            echo "::error::No Cloudflare API token found. Add a CLOUDFLARE_API_TOKEN secret in Settings -> Secrets and variables -> Actions."
+            echo "::error::No Cloudflare API token found. Add a CLOUDFLARE_API_TOKEN secret (Workers Scripts: Edit) in Settings -> Secrets and variables -> Actions."
             exit 1
           fi
           echo "::add-mask::$TOKEN"
           echo "CLOUDFLARE_API_TOKEN=$TOKEN" >> "$GITHUB_ENV"
 
-          ACCOUNT="${{ secrets.CLOUDFLARE_ACCOUNT_ID }}"
           if [ -z "$ACCOUNT" ]; then
-            ACCOUNT=$(curl -fsS -H "Authorization: Bearer $TOKEN" \
+            ACCOUNT=$(curl -sS -H "Authorization: Bearer $TOKEN" \
               https://api.cloudflare.com/client/v4/accounts \
               | jq -r '.result[0].id // empty')
           fi
+
           if [ -z "$ACCOUNT" ]; then
-            echo "::error::Could not resolve a Cloudflare account id. The token must be valid with Workers Scripts: Edit, or add a CLOUDFLARE_ACCOUNT_ID secret."
+            echo "::error::Could not resolve a Cloudflare account id. Put the token and the account id in the CLOUDFLARE secret (two lines), or add a CLOUDFLARE_ACCOUNT_ID secret."
             exit 1
           fi
+
           echo "CLOUDFLARE_ACCOUNT_ID=$ACCOUNT" >> "$GITHUB_ENV"
-          echo "Deploying with Cloudflare account $ACCOUNT"
+          echo "Using Cloudflare account $ACCOUNT"
 
       - name: Deploy to Cloudflare
         run: bunx wrangler deploy
