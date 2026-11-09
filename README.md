@@ -38,7 +38,21 @@ are unaffected.
 - `src/worker/index.ts` is the Cloudflare Worker. `/api/subscribe` receives the
   email form; connect it to your provider or a D1 table.
 
-## Deploy with Freebuff Sites
+## Deploy
 
-`deploy.json` already points at the build output. After `bun run build`, deploy
-it with the `sites_deploy` tool (or the Sites API) from this directory.
+`.github/workflows/deploy.yml` builds the site and runs `wrangler deploy` on
+every push to `main` (or manually from the Actions tab). It ships the Worker in
+`src/worker` with the static assets from `dist/client` in front of it, so the
+page and `/api/*` both come from one deployment.
+
+Add these two repository secrets once (**Settings → Secrets and variables →
+Actions → New repository secret**):
+
+| Secret | Where to get it |
+| :-- | :-- |
+| `CLOUDFLARE_API_TOKEN` | Cloudflare dashboard → **My Profile → API Tokens → Create Token**. Use a custom token with **Workers Scripts: Edit** and **Account Settings: Read**. |
+| `CLOUDFLARE_ACCOUNT_ID` | Cloudflare dashboard → **Workers & Pages** → the account ID in the right sidebar. |
+
+The live URL is `https://saas-landing.<your-subdomain>.workers.dev` — it is also
+printed at the end of the deploy step. Once it is up, put it in the repo's
+**Website** field and in the profile README.
