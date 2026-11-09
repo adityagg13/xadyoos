@@ -41,14 +41,16 @@ jobs:
         run: |
           set -uo pipefail
 
-          ACCOUNT="${RAW_ACCOUNT//[[:space:]]/}"
+          ACCOUNT="$(printf '%s' "$RAW_ACCOUNT" | tr -cd '0-9a-f')"
           [ -z "$ACCOUNT" ] && ACCOUNT="$CF_ACCOUNT_ID"
 
-          # The secret may hold only the token, or the token plus the account id
-          # on separate lines (either order). API tokens never contain spaces,
-          # so strip every whitespace character including pasted line breaks.
-          TOKEN="${RAW_TOKEN//[[:space:]]/}"
-          TOKEN="${TOKEN//$CF_ACCOUNT_ID/}"
+          # Secrets get pasted with wrapping, labels or stray symbols. A Cloudflare
+          # API token only ever contains letters, digits, underscore and hyphen.
+          CLEANED=$(printf '%s' "$RAW_TOKEN" | tr -cd 'A-Za-z0-9_-')
+          DROPPED=$(( ${#RAW_TOKEN} - ${#CLEANED} ))
+          TOKEN="${CLEANED//$CF_ACCOUNT_ID/}"
+
+          echo "Dropped $DROPPED characters that cannot appear in a token"
 
           if [ -z "$TOKEN" ]; then
             echo "::error::No Cloudflare API token found. Add a CLOUDFLARE_API_TOKEN secret (permission: Workers Scripts -> Edit) under Settings -> Secrets and variables -> Actions."
@@ -56,7 +58,7 @@ jobs:
           fi
 
           echo "::add-mask::$TOKEN"
-          echo "Parsed an API token of ${#TOKEN} characters"
+          echo "Using an API token of ${#TOKEN} characters"
 
           STATUS=$(curl -sS -o /tmp/verify.json -w '%{http_code}' \
             -H "Authorization: Bearer $TOKEN" \
