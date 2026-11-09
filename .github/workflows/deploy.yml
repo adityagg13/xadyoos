@@ -34,63 +34,29 @@ jobs:
       - name: Build (assets + Worker)
         run: bun run build
 
-      - name: Resolve Cloudflare credentials
+      - name: Check Cloudflare credentials
         env:
-          RAW_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN || secrets.CLOUDFLARE }}
-          RAW_ACCOUNT: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CF_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
         run: |
-          set -uo pipefail
-
-          ACCOUNT=$(printf '%s' "$RAW_ACCOUNT" | sed -E 's/[^0-9a-f]//g')
-          [ -z "$ACCOUNT" ] && ACCOUNT="$CF_ACCOUNT_ID"
-
-          # A Cloudflare API token only uses letters, digits, underscore and
-          # hyphen. Secrets often arrive with line breaks, labels or stray
-          # symbols wrapped around the real value, so probe the plausible
-          # token shapes and keep the one Cloudflare accepts.
-          CLEANED=$(printf '%s' "$RAW_TOKEN" | tr -cd 'A-Za-z0-9_-')
-
-          verify_token() {
-            [ -z "$1" ] && return 1
-            local code
-            code=$(curl -sS -o /tmp/verify.json -w '%{http_code}' \
-              -H "Authorization: Bearer $1" \
-              https://api.cloudflare.com/client/v4/user/tokens/verify || echo 000)
-            [ "$code" = "200" ]
-          }
-
-          candidates=("$CLEANED")
-          if [[ "$CLEANED" == *cfk_* ]]; then
-            candidates+=("cfk_${CLEANED#*cfk_}")
+          if [ -z "$CF_TOKEN" ]; then
+            echo "::error::Add a CLOUDFLARE_API_TOKEN repository secret (Cloudflare dashboard -> My Profile -> API Tokens, permission: Workers Scripts -> Edit)."
+            exit 1
           fi
-          for n in 40 44 48 49 52 56 60 64 68 72; do
-            [ ${#CLEANED} -ge "$n" ] && candidates+=("${CLEANED:0:$n}" "${CLEANED: -$n}")
-          done
 
-          TOKEN=""
-          for candidate in "${candidates[@]}"; do
-            if verify_token "$candidate"; then
-              TOKEN="$candidate"
-              break
-            fi
-          done
+          echo "::add-mask::$CF_TOKEN"
 
-          if [ -z "$TOKEN" ]; then
-            code=$(curl -sS -o /tmp/verify.json -w '%{http_code}' \
-              -H "Authorization: Bearer $CLEANED" \
-              https://api.cloudflare.com/client/v4/user/tokens/verify || echo 000)
-            echo "::error::No usable Cloudflare API token in the secret (${#CLEANED} characters, verify HTTP $code)."
+          STATUS=$(curl -sS -o /tmp/verify.json -w '%{http_code}' \
+            -H "Authorization: Bearer $CF_TOKEN" \
+            https://api.cloudflare.com/client/v4/user/tokens/verify || echo 000)
+
+          if [ "$STATUS" != "200" ]; then
+            echo "::error::Cloudflare rejected CLOUDFLARE_API_TOKEN (HTTP $STATUS). Create a fresh token and paste only its value, with no account id, labels or line breaks."
             head -c 500 /tmp/verify.json || true
             exit 1
           fi
 
-          echo "::add-mask::$TOKEN"
-          echo "Cloudflare accepted a token of ${#TOKEN} characters"
-
-          {
-            echo "CLOUDFLARE_API_TOKEN=$TOKEN"
-            echo "CLOUDFLARE_ACCOUNT_ID=$ACCOUNT"
-          } >> "$GITHUB_ENV"
-
       - name: Deploy to Cloudflare
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID || env.CF_ACCOUNT_ID }}
         run: bunx wrangler deploy
