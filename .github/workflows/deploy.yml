@@ -41,21 +41,14 @@ jobs:
         run: |
           set -uo pipefail
 
-          TOKEN=""
           ACCOUNT="${RAW_ACCOUNT//[[:space:]]/}"
           [ -z "$ACCOUNT" ] && ACCOUNT="$CF_ACCOUNT_ID"
 
-          # A single secret may hold the token and the account id on separate
-          # lines, in any order. Keep the 32 hex character line as the account.
-          while IFS= read -r line; do
-            line="${line//[[:space:]]/}"
-            [ -z "$line" ] && continue
-            if [[ "$line" =~ ^[0-9a-f]{32}$ ]]; then
-              ACCOUNT="$line"
-            elif [ -z "$TOKEN" ]; then
-              TOKEN="$line"
-            fi
-          done <<< "${RAW_TOKEN}"
+          # The secret may hold only the token, or the token plus the account id
+          # on separate lines (either order). API tokens never contain spaces,
+          # so strip every whitespace character including pasted line breaks.
+          TOKEN="${RAW_TOKEN//[[:space:]]/}"
+          TOKEN="${TOKEN//$CF_ACCOUNT_ID/}"
 
           if [ -z "$TOKEN" ]; then
             echo "::error::No Cloudflare API token found. Add a CLOUDFLARE_API_TOKEN secret (permission: Workers Scripts -> Edit) under Settings -> Secrets and variables -> Actions."
@@ -63,12 +56,23 @@ jobs:
           fi
 
           echo "::add-mask::$TOKEN"
+          echo "Parsed an API token of ${#TOKEN} characters"
+
+          STATUS=$(curl -sS -o /tmp/verify.json -w '%{http_code}' \
+            -H "Authorization: Bearer $TOKEN" \
+            https://api.cloudflare.com/client/v4/user/tokens/verify || echo 000)
+
+          if [ "$STATUS" != "200" ]; then
+            echo "::error::Cloudflare rejected the API token (HTTP $STATUS)."
+            head -c 500 /tmp/verify.json || true
+            exit 1
+          fi
+          echo "Cloudflare accepted the API token"
+
           {
             echo "CLOUDFLARE_API_TOKEN=$TOKEN"
             echo "CLOUDFLARE_ACCOUNT_ID=$ACCOUNT"
           } >> "$GITHUB_ENV"
-
-          echo "Using Cloudflare account $ACCOUNT"
 
       - name: Deploy to Cloudflare
         run: bunx wrangler deploy
