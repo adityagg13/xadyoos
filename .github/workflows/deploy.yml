@@ -30,8 +30,28 @@ jobs:
       - name: Build (assets + Worker)
         run: bun run build
 
+      - name: Resolve Cloudflare credentials
+        run: |
+          TOKEN="${{ secrets.CLOUDFLARE_API_TOKEN || secrets.CLOUDFLARE }}"
+          if [ -z "$TOKEN" ]; then
+            echo "::error::No Cloudflare API token found. Add a CLOUDFLARE_API_TOKEN secret in Settings -> Secrets and variables -> Actions."
+            exit 1
+          fi
+          echo "::add-mask::$TOKEN"
+          echo "CLOUDFLARE_API_TOKEN=$TOKEN" >> "$GITHUB_ENV"
+
+          ACCOUNT="${{ secrets.CLOUDFLARE_ACCOUNT_ID }}"
+          if [ -z "$ACCOUNT" ]; then
+            ACCOUNT=$(curl -fsS -H "Authorization: Bearer $TOKEN" \
+              https://api.cloudflare.com/client/v4/accounts \
+              | jq -r '.result[0].id // empty')
+          fi
+          if [ -z "$ACCOUNT" ]; then
+            echo "::error::Could not resolve a Cloudflare account id. The token must be valid with Workers Scripts: Edit, or add a CLOUDFLARE_ACCOUNT_ID secret."
+            exit 1
+          fi
+          echo "CLOUDFLARE_ACCOUNT_ID=$ACCOUNT" >> "$GITHUB_ENV"
+          echo "Deploying with Cloudflare account $ACCOUNT"
+
       - name: Deploy to Cloudflare
         run: bunx wrangler deploy
-        env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
