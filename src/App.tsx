@@ -6,10 +6,8 @@ import { Hero } from './sections/Hero'
 import { LogoCloud } from './sections/LogoCloud'
 import { Metrics } from './sections/Metrics'
 import { Nav } from './sections/Nav'
-import { Pricing } from './sections/Pricing'
 import { Showcase } from './sections/Showcase'
 import { Steps } from './sections/Steps'
-import { Testimonials } from './sections/Testimonials'
 
 // The page is a stack of independent sections. Remove or reorder freely;
 // copy for each lives in src/content.ts.
@@ -24,8 +22,6 @@ export function App() {
         <Steps />
         <Showcase />
         <Metrics />
-        <Testimonials />
-        <Pricing />
         <Faq />
         <Cta />
       </main>
