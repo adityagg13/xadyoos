@@ -6,6 +6,7 @@ A dark, animated marketing page for a software product — Vite + React 19 in fr
 
 [![Live demo](https://img.shields.io/badge/live%20demo-saas--landing.adityakumarjha5052.workers.dev-7c3aed?style=for-the-badge&logo=cloudflare&logoColor=white)](https://saas-landing.adityakumarjha5052.workers.dev)
 [![Deploy](https://github.com/adityagg13/saas-landing/actions/workflows/deploy.yml/badge.svg)](https://github.com/adityagg13/saas-landing/actions/workflows/deploy.yml)
+[![Release](https://img.shields.io/github/v/release/adityagg13/saas-landing?style=for-the-badge&color=7c3aed&label=release)](https://github.com/adityagg13/saas-landing/releases)
 
 </div>
 
