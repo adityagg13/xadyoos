@@ -41,16 +41,16 @@ jobs:
         run: |
           set -uo pipefail
 
-          ACCOUNT="$(printf '%s' "$RAW_ACCOUNT" | tr -cd '0-9a-f')"
+          ACCOUNT="$(printf '%s' "$RAW_ACCOUNT" | tr -cd '0-9a-f') "
+          ACCOUNT=$(printf '%s' "$RAW_ACCOUNT" | sed -E 's/[^0-9a-f]//g')
           [ -z "$ACCOUNT" ] && ACCOUNT="$CF_ACCOUNT_ID"
 
-          # Secrets get pasted with wrapping, labels or stray symbols. A Cloudflare
-          # API token only ever contains letters, digits, underscore and hyphen.
+          # The secret may hold the token alone or the token plus the account id,
+          # possibly on one line and in any case. API tokens only use letters,
+          # digits, underscore and hyphen, so drop everything else and any
+          # 32 character hex block, which can only be the account id.
           CLEANED=$(printf '%s' "$RAW_TOKEN" | tr -cd 'A-Za-z0-9_-')
-          DROPPED=$(( ${#RAW_TOKEN} - ${#CLEANED} ))
-          TOKEN="${CLEANED//$CF_ACCOUNT_ID/}"
-
-          echo "Dropped $DROPPED characters that cannot appear in a token"
+          TOKEN=$(printf '%s' "$CLEANED" | sed -E 's/[0-9a-fA-F]{32}//g')
 
           if [ -z "$TOKEN" ]; then
             echo "::error::No Cloudflare API token found. Add a CLOUDFLARE_API_TOKEN secret (permission: Workers Scripts -> Edit) under Settings -> Secrets and variables -> Actions."
