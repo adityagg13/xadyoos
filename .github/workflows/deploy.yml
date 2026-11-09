@@ -41,35 +41,51 @@ jobs:
         run: |
           set -uo pipefail
 
-          ACCOUNT="$(printf '%s' "$RAW_ACCOUNT" | tr -cd '0-9a-f') "
           ACCOUNT=$(printf '%s' "$RAW_ACCOUNT" | sed -E 's/[^0-9a-f]//g')
           [ -z "$ACCOUNT" ] && ACCOUNT="$CF_ACCOUNT_ID"
 
-          # The secret may hold the token alone or the token plus the account id,
-          # possibly on one line and in any case. API tokens only use letters,
-          # digits, underscore and hyphen, so drop everything else and any
-          # 32 character hex block, which can only be the account id.
+          # A Cloudflare API token only uses letters, digits, underscore and
+          # hyphen. Secrets often arrive with line breaks, labels or stray
+          # symbols wrapped around the real value, so probe the plausible
+          # token shapes and keep the one Cloudflare accepts.
           CLEANED=$(printf '%s' "$RAW_TOKEN" | tr -cd 'A-Za-z0-9_-')
-          TOKEN=$(printf '%s' "$CLEANED" | sed -E 's/[0-9a-fA-F]{32}//g')
+
+          verify_token() {
+            [ -z "$1" ] && return 1
+            local code
+            code=$(curl -sS -o /tmp/verify.json -w '%{http_code}' \
+              -H "Authorization: Bearer $1" \
+              https://api.cloudflare.com/client/v4/user/tokens/verify || echo 000)
+            [ "$code" = "200" ]
+          }
+
+          candidates=("$CLEANED")
+          if [[ "$CLEANED" == *cfk_* ]]; then
+            candidates+=("cfk_${CLEANED#*cfk_}")
+          fi
+          for n in 40 44 48 49 52 56 60 64 68 72; do
+            [ ${#CLEANED} -ge "$n" ] && candidates+=("${CLEANED:0:$n}" "${CLEANED: -$n}")
+          done
+
+          TOKEN=""
+          for candidate in "${candidates[@]}"; do
+            if verify_token "$candidate"; then
+              TOKEN="$candidate"
+              break
+            fi
+          done
 
           if [ -z "$TOKEN" ]; then
-            echo "::error::No Cloudflare API token found. Add a CLOUDFLARE_API_TOKEN secret (permission: Workers Scripts -> Edit) under Settings -> Secrets and variables -> Actions."
+            code=$(curl -sS -o /tmp/verify.json -w '%{http_code}' \
+              -H "Authorization: Bearer $CLEANED" \
+              https://api.cloudflare.com/client/v4/user/tokens/verify || echo 000)
+            echo "::error::No usable Cloudflare API token in the secret (${#CLEANED} characters, verify HTTP $code)."
+            head -c 500 /tmp/verify.json || true
             exit 1
           fi
 
           echo "::add-mask::$TOKEN"
-          echo "Using an API token of ${#TOKEN} characters"
-
-          STATUS=$(curl -sS -o /tmp/verify.json -w '%{http_code}' \
-            -H "Authorization: Bearer $TOKEN" \
-            https://api.cloudflare.com/client/v4/user/tokens/verify || echo 000)
-
-          if [ "$STATUS" != "200" ]; then
-            echo "::error::Cloudflare rejected the API token (HTTP $STATUS)."
-            head -c 500 /tmp/verify.json || true
-            exit 1
-          fi
-          echo "Cloudflare accepted the API token"
+          echo "Cloudflare accepted a token of ${#TOKEN} characters"
 
           {
             echo "CLOUDFLARE_API_TOKEN=$TOKEN"
