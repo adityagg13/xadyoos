@@ -1,8 +1,9 @@
-// Strips files the Sites uploader refuses (hidden files and source maps)
-// from the build output, so `deploy.json` can point straight at dist/.
-// Removing a source map must also remove the sourceMappingURL comment that
-// points at it, otherwise `wrangler deploy` fails on the missing file.
+// Post-build pass on dist/: prune hidden files and source maps (and the
+// sourceMappingURL comments that point at them), then derive docs.html from
+// index.html so Vercel's cleanUrls serves the docs page at /docs without
+// needing a catch-all rewrite.
 import {
+  copyFileSync,
   readdirSync,
   readFileSync,
   rmSync,
@@ -32,4 +33,6 @@ function clean(dir) {
   }
 }
 
-clean(new URL('../dist', import.meta.url).pathname)
+const dist = new URL('../dist', import.meta.url).pathname
+clean(dist)
+copyFileSync(join(dist, 'index.html'), join(dist, 'docs.html'))
