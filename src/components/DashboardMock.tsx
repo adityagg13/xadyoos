@@ -5,16 +5,16 @@ import { LogoMark } from './Logo'
 import { cx } from '../lib/cx'
 
 const stages = [
-  { icon: Trash2, label: 'Debloat', count: '148 items' },
-  { icon: Shield, label: 'Privacy', count: '22 toggles' },
-  { icon: Gauge, label: 'Performance', count: '61 services' },
-  { icon: Archive, label: 'Compress', count: 'LZX' },
+  { icon: Trash2, label: 'Debloat', count: 'appx · apps' },
+  { icon: Shield, label: 'Privacy', count: 'policies' },
+  { icon: Gauge, label: 'Performance', count: 'services' },
+  { icon: Archive, label: 'Backup', count: 'restore point' },
 ]
 
 const stats = [
-  { label: 'Items queued', value: '148' },
-  { label: 'Services off', value: '61' },
-  { label: 'Start-up apps', value: '9' },
+  { label: 'Windows builds', value: '15' },
+  { label: 'Presets', value: '3' },
+  { label: 'Run time', value: '~12 min' },
 ]
 
 export function Monogram({
@@ -42,7 +42,7 @@ export function DashboardMock() {
       <aside className="hidden w-[200px] shrink-0 flex-col border-r border-line bg-bg/60 p-3 sm:flex">
         <div className="flex items-center gap-2 px-1.5 py-1">
           <LogoMark className="size-6 rounded-[8px]" />
-          <span className="text-[12px] font-semibold">LITEXOS</span>
+          <span className="text-[12px] font-semibold">X-ADYO OS</span>
           <span className="ml-auto rounded-[6px] bg-accent/15 px-1.5 text-[10px] font-medium text-accent">v1.0</span>
         </div>
         <p className="mt-4 px-2 text-[11px] text-faint">Stages</p>
@@ -57,7 +57,7 @@ export function DashboardMock() {
         </ul>
         <div className="mt-auto flex items-center gap-2 px-1.5 text-[10px] text-faint">
           <span className="round size-2 bg-accent-2" />
-          Standard profile · offline
+          Balanced preset · restore point on
         </div>
       </aside>
 
@@ -66,7 +66,7 @@ export function DashboardMock() {
           <span className="text-[12px] font-medium">Playbook run</span>
           <span className="rounded-[6px] bg-white/[0.06] px-1.5 py-0.5 text-[10px] text-muted">Windows 11 · 24H2</span>
           <span className="ml-auto hidden items-center gap-1.5 text-[11px] text-accent-2 sm:flex">
-            <Check className="size-3.5" /> undo log saved
+            <Check className="size-3.5" /> report generated
           </span>
         </div>
 

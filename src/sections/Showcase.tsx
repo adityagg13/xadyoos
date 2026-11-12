@@ -82,11 +82,11 @@ export function Showcase() {
 const removed = [
   { name: 'Telemetry service', tag: 'service' },
   { name: 'Widgets and news feed', tag: 'package' },
-  { name: 'Cortana', tag: 'app' },
+  { name: 'Copilot and Recall', tag: 'feature' },
   { name: 'OneDrive', tag: 'app' },
-  { name: 'Xbox Game Bar', tag: 'package' },
-  { name: 'Store suggestions', tag: 'policy' },
-  { name: 'Recall', tag: 'feature' },
+  { name: 'Cortana', tag: 'app' },
+  { name: 'News and interests', tag: 'taskbar' },
+  { name: 'Suggested apps', tag: 'appx' },
 ]
 
 function RemovedPanel() {
@@ -101,7 +101,7 @@ function RemovedPanel() {
           className={cx(
             'depth relative flex items-center gap-3 rounded-[14px] px-4 py-2.5',
             i === 0
-              ? 'bg-white/[0.04] [--depth-edge:rgb(255_236_224/0.22)]'
+              ? 'bg-white/[0.04] [--depth-edge:rgb(224_236_255/0.22)]'
               : '[--depth-edge:var(--color-line)]',
           )}
         >

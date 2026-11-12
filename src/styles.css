@@ -3,22 +3,22 @@
 /*
   Design tokens. Everything rounded is a squircle (see the global rule below),
   so radii run a step larger than a plain border-radius would. The palette is
-  a warm near-black with an ember gradient: orange, amber and a red.
+  a deep navy near-black with an electric-blue gradient: blue, cyan and a red for errors.
 */
 @theme {
   --font-sans: 'Google Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
 
-  --color-bg: #0b0908;
-  --color-surface: #121010;
-  --color-surface-2: #191514;
-  --color-raised: #211b19;
-  --color-line: rgb(255 236 224 / 0.08);
-  --color-line-strong: rgb(255 236 224 / 0.14);
-  --color-fg: #f3ede8;
-  --color-muted: #a89e97;
-  --color-faint: #746a64;
-  --color-accent: #ff7a45;
-  --color-accent-2: #ffb547;
+  --color-bg: #070b12;
+  --color-surface: #0d121c;
+  --color-surface-2: #131a27;
+  --color-raised: #1a2333;
+  --color-line: rgb(224 236 255 / 0.08);
+  --color-line-strong: rgb(224 236 255 / 0.14);
+  --color-fg: #eef2f8;
+  --color-muted: #9aa6b8;
+  --color-faint: #6b7488;
+  --color-accent: #4f8dff;
+  --color-accent-2: #63c8ff;
   --color-accent-3: #ff4d6d;
 
   --radius-control: 14px;
@@ -106,7 +106,7 @@
     overflow-x: clip;
   }
   ::selection {
-    background: rgb(255 122 69 / 0.35);
+    background: rgb(79 141 255 / 0.35);
     color: #fff;
   }
   button,
@@ -117,7 +117,7 @@
     color: inherit;
   }
   :focus-visible {
-    outline: 2px solid rgb(255 122 69 / 0.7);
+    outline: 2px solid rgb(79 141 255 / 0.7);
     outline-offset: 2px;
   }
   @media (prefers-reduced-motion: reduce) {
@@ -170,15 +170,15 @@
 /* A fine grid that fades out towards the edges. */
 @utility grid-lines {
   background-image:
-    linear-gradient(to right, rgb(255 236 224 / 0.05) 1px, transparent 1px),
-    linear-gradient(to bottom, rgb(255 236 224 / 0.05) 1px, transparent 1px);
+    linear-gradient(to right, rgb(224 236 255 / 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(224 236 255 / 0.05) 1px, transparent 1px);
   background-size: 56px 56px;
   mask-image: radial-gradient(ellipse 70% 60% at 50% 0%, #000 30%, transparent 100%);
 }
 
 /* Gradient text for a highlighted word. */
 @utility text-gradient {
-  background: linear-gradient(100deg, #ffffff 0%, #ffd2bd 40%, #ffb547 100%);
+  background: linear-gradient(100deg, #ffffff 0%, #b9d4ff 40%, #63c8ff 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;

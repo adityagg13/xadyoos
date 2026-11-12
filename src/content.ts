@@ -3,8 +3,21 @@
 // it from App.tsx.
 
 export const brand = {
-  name: 'LITEXOS',
-  tagline: 'One pass to a clean Windows',
+  name: 'X-ADYO OS',
+  tagline: 'One playbook for every Windows 10 and 11 build',
+}
+
+export const repo = {
+  url: 'https://github.com/adityagg13/X-ADYO-OS',
+  release: 'https://github.com/adityagg13/X-ADYO-OS/releases/latest',
+  docs: {
+    install: 'https://github.com/adityagg13/X-ADYO-OS/blob/main/docs/INSTALL.md',
+    presets: 'https://github.com/adityagg13/X-ADYO-OS/blob/main/docs/PRESETS.md',
+    modules: 'https://github.com/adityagg13/X-ADYO-OS/blob/main/docs/MODULES.md',
+    troubleshooting: 'https://github.com/adityagg13/X-ADYO-OS/blob/main/docs/TROUBLESHOOTING.md',
+    license: 'https://github.com/adityagg13/X-ADYO-OS/blob/main/LICENSE',
+    credits: 'https://github.com/adityagg13/X-ADYO-OS/blob/main/CREDITS.md',
+  },
 }
 
 export const nav = {
@@ -12,54 +25,57 @@ export const nav = {
     { label: 'What it does', href: '#features' },
     { label: 'How it works', href: '#how' },
     { label: 'Inside the pass', href: '#showcase' },
+    { label: 'FAQ', href: '#faq' },
   ],
-  signIn: { label: 'GitHub', href: 'https://github.com/adityagg13/saas-landing' },
-  cta: { label: 'Get the playbook', href: '#cta' },
+  signIn: { label: 'GitHub', href: repo.url },
+  cta: { label: 'Download', href: repo.release },
 }
 
 export const hero = {
-  badge: 'v1.0 · private build',
-  title: ['One pass to a', 'clean Windows'],
-  highlight: 'clean',
+  badge: 'v1.0.0 · open source · GPL-3.0',
+  badgeHref: repo.release,
+  title: ['One playbook for', 'every Windows build'],
+  highlight: 'every',
   description:
-    'LITEXOS Playbook is a single AME Wizard pass for Windows 10 and 11: strip the services nobody asked for, close the privacy defaults, tune for a low idle, then compress the image on the way out.',
-  primary: { label: 'Get the playbook', href: '#cta' },
-  secondary: { label: 'See what it removes', href: '#features' },
-  footnote: 'Runs offline. Every change is logged and reversible.',
+    'X-ADYO OS is a single AME Wizard pass for Windows 10 and 11, from 1809 to 26H2: strip the bloat, close the telemetry defaults, tune services and performance, then read a full report of every change. Backed up, gated per build, reversible.',
+  primary: { label: 'Download v1.0.0', href: repo.release },
+  secondary: { label: 'See what it changes', href: '#features' },
+  footnote: 'Restore point first · full backups · ~12 minute run',
 }
 
-export const logos = ['AME Wizard', 'Windows 10', 'Windows 11', 'PowerShell', 'LZX', 'Winget']
+export const logos = ['AME Wizard', 'Windows 10', 'Windows 11', 'PowerShell', 'Winget', 'GPL-3.0']
 
 export const features = {
   eyebrow: 'What one pass does',
-  title: 'Debloat, privacy, performance — then compress',
+  title: 'Debloat, privacy, performance — with a way back',
   description:
-    'Four stages, run in a fixed order. Each one does a single job properly instead of pretending to do everything.',
+    'Four things, done properly instead of pretending to do everything. Every tweak is gated per build, so the same file behaves correctly on Windows 10 1809 and Windows 11 26H2.',
   items: [
     {
       key: 'collab',
-      title: 'One playbook, every machine',
+      title: 'One playbook, every build',
       description:
-        'The same pass on a fresh install or on a laptop that has been collecting junk for a year.',
+        'Per-module build gates: Windows 10-only tweaks stay off on 11, Windows 11-only tweaks stay off on 10. Fresh ISO or a year-old laptop — same package.',
       span: 2,
     },
     {
       key: 'automation',
-      title: 'Stages run in order',
-      description: 'Debloat, privacy, performance and cleanup — then LZX compression at the end.',
+      title: 'Three presets',
+      description: 'Safe, Balanced (default) and Extreme. Same backups and report in every one.',
       span: 1,
     },
     {
       key: 'analytics',
       title: 'Measured, not guessed',
-      description: 'Idle RAM, start-up items and services are counted before and after the pass.',
+      description:
+        'A self-contained HTML + TXT report lists every real before/after change, plus a stock-values inventory.',
       span: 1,
     },
     {
       key: 'integrations',
-      title: 'Nothing left running',
+      title: 'Reversible by design',
       description:
-        'Telemetry, widgets, store apps and background helpers that should not survive a fresh install.',
+        'A System Restore point first, then full backups of services, AppX families and scheduled tasks — with a partial undo script on top.',
       span: 2,
     },
   ],
@@ -67,29 +83,29 @@ export const features = {
 
 export const steps = {
   eyebrow: 'How it works',
-  title: 'From ISO to a quiet machine',
+  title: 'From download to a quiet machine',
   items: [
     {
-      title: 'Boot into AME Wizard',
+      title: 'Grab the .apbx',
       description:
-        'Run the playbook on a fresh install or your current Windows. It needs no network and installs nothing behind your back.',
+        'Download X-ADYO-OS-v1.0.0.apbx from GitHub Releases and open it in AME Wizard via Playbooks → Open. No install, no account.',
     },
     {
-      title: 'Pick a profile',
+      title: 'Pick a preset',
       description:
-        'Standard keeps the day-to-day features, Minimal goes further, Keep takes your own list. Every stage can be toggled.',
+        'Safe stays out of the way, Balanced tunes conservatively, Extreme goes further. The restore point stays on and you can pick Chrome, Brave or Firefox.',
     },
     {
-      title: 'Run it, then reboot',
+      title: 'Apply, then read the report',
       description:
-        'One pass, then LZX compression on the image. Everything disabled is written to the log, so it can come back.',
+        'About 12 minutes later, C:\\Windows\\X-ADYO-OS\\install-report.html lists every change. The partial undo script brings back anything you miss.',
     },
   ],
 }
 
 export const showcase = {
   eyebrow: 'Inside the pass',
-  title: 'The same machine, seen three ways',
+  title: 'What actually changes',
   tabs: [
     {
       key: 'inbox',
@@ -109,58 +125,83 @@ export const showcase = {
   ],
 }
 
-export const metrics = [
-  { value: 1, label: 'pass over the whole install' },
-  { value: 4, label: 'stages in a fixed order' },
-  { value: 0, label: 'subscriptions or nag screens' },
-  { value: 100, suffix: '%', label: 'of changes logged and reversible' },
+export const metrics: { value: number; label: string; suffix?: string; decimals?: number }[] = [
+  { value: 1, label: 'playbook for both operating systems' },
+  { value: 15, label: 'supported builds across Windows 10 and 11' },
+  { value: 3, label: 'presets: Safe, Balanced, Extreme' },
+  { value: 100, suffix: '%', label: 'of changes backed up and logged' },
 ]
 
 export const faq = {
   title: 'Questions, answered',
   items: [
     {
-      q: 'What is a playbook, exactly?',
-      a: 'One YAML file that AME Wizard reads. It lists every stage, service, scheduled task and registry change, so you can read what it does before you run it.',
+      q: 'What is X-ADYO OS, exactly?',
+      a: 'One AME Wizard playbook (.apbx). It carries every module — debloat, privacy, services, performance, visual, network — with a build gate on each one, so the right changes apply to your exact Windows build.',
     },
     {
       q: 'Which Windows versions are supported?',
-      a: 'Windows 10 and Windows 11, x64. Server and LTSC builds are untested — they may work, but the playbook assumes a consumer install.',
+      a: 'Windows 10 from 1809 to 22H2 and Windows 11 from 21H2 to 26H2, plus the next servicing branch. See docs/COMPATIBILITY.md for the full build list and caveats.',
     },
     {
       q: 'Can I undo a pass?',
-      a: 'Yes. The playbook logs what it disables, and anything it turned off is a checkbox in AME Wizard or a one-line change in the YAML.',
+      a: 'Yes. A System Restore point is created first (unless you turn it off), services, AppX families and scheduled tasks are backed up, and a partial undo script restores startup values and re-enabled tasks. Full rollback is the restore point.',
     },
     {
       q: 'Does it need an internet connection?',
-      a: 'No. The pass runs offline, and the LZX compression at the end is local too, so an image can be built on a machine that never sees a network.',
+      a: 'Yes — the wizard checks requirements and the browser install (Chrome, Brave or Firefox) uses winget. Everything else runs locally; nothing is sent anywhere.',
     },
     {
       q: 'Will it break Windows Update or Defender?',
-      a: 'It does not remove Defender and it leaves the update pipeline alone. It targets advertising, telemetry and background helpers, not security patches.',
+      a: 'No. A never-touch list is enforced by the build validator: Windows Update, Defender services, TrustedInstaller, the Store, winget and the shell AppX families are never disabled.',
     },
     {
       q: 'Where do I get it?',
-      a: 'v1.0 is a private build. Leave your email below and I will send the file with the changelog and a note on what each stage touches.',
+      a: 'Free from GitHub Releases, under GPL-3.0. You can also build the .apbx yourself from source with the two Python scripts in the repo.',
     },
   ],
 }
 
 export const cta = {
-  title: 'Get the playbook',
+  title: 'Download X-ADYO OS',
   description:
-    'v1.0 is a private build. Drop your email and I will send the file, the changelog and a short note on what each stage touches.',
-  placeholder: 'you@example.com',
-  button: 'Send me the playbook',
-  success: 'Check your inbox — the v1.0 file is on its way.',
+    'v1.0.0 is free and open source under GPL-3.0. Grab the .apbx from GitHub Releases, or read the source and build it yourself.',
+  primary: { label: 'Get the playbook', href: repo.release },
+  secondary: { label: 'Read the source', href: repo.url },
+  note: 'Restore point first · every change logged · partial undo included',
 }
 
 export const footer = {
-  blurb: 'A single-pass Windows playbook. Offline, logged, reversible.',
+  blurb: 'One AME Wizard playbook for every Windows 10 and 11 build. Transparent, reversible, open source.',
   columns: [
-    { title: 'Playbook', links: ['What it does', 'How it works', 'Inside the pass', 'Changelog'] },
-    { title: 'LITEXOS', links: ['Profile', 'GitHub', 'Notes', 'Contact'] },
-    { title: 'Legal', links: ['Terms', 'Privacy'] },
+    {
+      title: 'Playbook',
+      links: [
+        { label: 'What it does', href: '#features' },
+        { label: 'How it works', href: '#how' },
+        { label: 'Inside the pass', href: '#showcase' },
+        { label: 'FAQ', href: '#faq' },
+      ],
+    },
+    {
+      title: 'Docs',
+      links: [
+        { label: 'Install guide', href: repo.docs.install },
+        { label: 'Presets', href: repo.docs.presets },
+        { label: 'Modules', href: repo.docs.modules },
+        { label: 'Troubleshooting', href: repo.docs.troubleshooting },
+      ],
+    },
+    {
+      title: 'Project',
+      links: [
+        { label: 'GitHub', href: repo.url },
+        { label: 'Releases', href: repo.release },
+        { label: 'License', href: repo.docs.license },
+        { label: 'Credits', href: repo.docs.credits },
+      ],
+    },
   ],
-  legal: `© ${new Date().getFullYear()} LITEXOS`,
+  legal: `© ${new Date().getFullYear()} adityagg13 · X-ADYO OS · GPL-3.0`,
+  github: repo.url,
 }

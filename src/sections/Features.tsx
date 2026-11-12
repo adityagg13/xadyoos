@@ -15,7 +15,7 @@ export function Features() {
         <div className="mt-14 grid auto-rows-[320px] grid-cols-1 gap-4 md:grid-cols-3">
           {features.items.map((item, i) => (
             <Reveal key={item.key} delay={(i % 3) * 0.08} className={cx(item.span === 2 && 'md:col-span-2')}>
-              <article className="depth group relative flex h-full flex-col overflow-hidden rounded-card bg-surface shadow-glow transition-colors duration-300 hover:[--depth-edge:rgb(255_236_224/0.22)]">
+              <article className="depth group relative flex h-full flex-col overflow-hidden rounded-card bg-surface shadow-glow transition-colors duration-300 hover:[--depth-edge:rgb(224_236_255/0.22)]">
                 <div className="relative flex-1 overflow-hidden">
                   {item.key === 'collab' && <MachinesVisual />}
                   {item.key === 'automation' && <StagesVisual />}
@@ -36,8 +36,8 @@ export function Features() {
 }
 
 const machines = [
-  { name: 'Windows 10', meta: '22H2' },
-  { name: 'Windows 11', meta: '24H2' },
+  { name: 'Windows 10', meta: '1809–22H2' },
+  { name: 'Windows 11', meta: '21H2–26H2' },
   { name: 'Fresh ISO', meta: 'install.wim' },
 ]
 
@@ -69,10 +69,10 @@ function MachinesVisual() {
 }
 
 const stageList = [
-  { label: 'Debloat', color: '#ff7a45' },
-  { label: 'Privacy', color: '#ff4d6d' },
-  { label: 'Performance', color: '#ffb547' },
-  { label: 'Compress', color: '#22d3ee' },
+  { label: 'Debloat', color: '#4f8dff' },
+  { label: 'Privacy', color: '#7c6cff' },
+  { label: 'Performance', color: '#63c8ff' },
+  { label: 'Backup', color: '#2dd4bf' },
 ]
 
 function StagesVisual() {
@@ -165,7 +165,7 @@ const removedThings = [
   'Suggested apps',
   'Ads',
   'Bing',
-  'Store',
+  'Wi-Fi Sense',
   'Tips',
 ]
 

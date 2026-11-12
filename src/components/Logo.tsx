@@ -10,15 +10,15 @@ export function LogoMark({ className }: { className?: string }) {
         className,
       )}
     >
-      <svg viewBox="0 0 24 24" className="size-4" fill="none" stroke="url(#logo-g)" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+      <svg viewBox="0 0 24 24" className="size-4" fill="none" stroke="url(#logo-g)" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round">
         <defs>
           <linearGradient id="logo-g" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0" stopColor="#ff9a6b" />
-            <stop offset="1" stopColor="#ffc46b" />
+            <stop offset="0" stopColor="#5ea2ff" />
+            <stop offset="1" stopColor="#8fd0ff" />
           </linearGradient>
         </defs>
-        <path d="M6 16 12 6l6 10" />
-        <circle cx="12" cy="18.5" r="1.2" fill="url(#logo-g)" stroke="none" />
+        <path d="M6 5.5 18 18.5" />
+        <path d="M18 5.5 6 18.5" />
       </svg>
     </span>
   )
