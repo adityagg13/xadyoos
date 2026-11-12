@@ -1,5 +1,5 @@
 import { motion } from 'motion/react'
-import { ArrowRight, Sparkles } from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
 
 import { Aurora } from '../components/Aurora'
 import { Button } from '../components/Button'
@@ -19,18 +19,6 @@ export function Hero() {
 
       <Container className="relative">
         <div className="mx-auto flex max-w-3xl flex-col items-center text-center">
-          <motion.a
-            href={hero.badgeHref}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease }}
-            className="depth relative inline-flex h-8 items-center gap-2 rounded-[12px] bg-white/[0.04] pl-2 pr-3 text-[13px] text-muted backdrop-blur transition-colors hover:text-fg"
-          >
-            <Sparkles className="size-3.5 text-accent" />
-            {hero.badge}
-            <ArrowRight className="size-3.5" />
-          </motion.a>
-
           <motion.h1
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
@@ -67,14 +55,6 @@ export function Hero() {
               {hero.secondary.label}
             </Button>
           </motion.div>
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.5 }}
-            className="mt-4 text-[13px] text-faint"
-          >
-            {hero.footnote}
-          </motion.p>
         </div>
 
         <motion.div

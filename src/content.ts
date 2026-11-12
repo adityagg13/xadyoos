@@ -27,15 +27,14 @@ export const nav = {
 }
 
 export const hero = {
+  // DocsPage uses this as its intro line; the hero itself shows no badge.
   badge: 'v1.0.0 · open source · GPL-3.0',
-  badgeHref: repo.download,
   title: ['One playbook for', 'every Windows build'],
   highlight: 'every',
   description:
     'X-ADYO OS is a single AME Wizard pass for Windows 10 and 11, from 1809 to 26H2: strip the bloat, close the telemetry defaults, tune services and performance, then read a full report of every change. Backed up, gated per build, reversible.',
   primary: { label: 'Download v1.0.0', href: repo.download },
   secondary: { label: 'See what it changes', href: '/#features' },
-  footnote: 'Restore point first · full backups · ~12 minute run',
 }
 
 export const logos = ['AME Wizard', 'Windows 10', 'Windows 11', 'PowerShell', 'Winget', 'GPL-3.0']
