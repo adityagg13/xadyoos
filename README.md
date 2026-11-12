@@ -4,13 +4,13 @@
 
 One playbook for every Windows 10 and 11 build. This repo is the marketing page for **X-ADYO OS**, a single AME Wizard playbook covering Windows 10 1809 to Windows 11 26H2.
 
-[![Live](https://img.shields.io/badge/live-saas--landing.adityakumarjha5052.workers.dev-4f8dff?style=for-the-badge&logo=cloudflare&logoColor=white)](https://saas-landing.adityakumarjha5052.workers.dev)
-[![Deploy](https://github.com/adityagg13/saas-landing/actions/workflows/deploy.yml/badge.svg)](https://github.com/adityagg13/saas-landing/actions/workflows/deploy.yml)
+[![Live](https://img.shields.io/badge/live-xadyo--os--landing.adityakumarjha5052.workers.dev-4f8dff?style=for-the-badge&logo=cloudflare&logoColor=white)](https://xadyo-os-landing.adityakumarjha5052.workers.dev)
+[![Deploy](https://github.com/adityagg13/xadyo-os-landing/actions/workflows/deploy.yml/badge.svg)](https://github.com/adityagg13/xadyo-os-landing/actions/workflows/deploy.yml)
 [![Release](https://img.shields.io/github/v/release/adityagg13/X-ADYO-OS?style=for-the-badge&color=4f8dff&label=playbook)](https://github.com/adityagg13/X-ADYO-OS/releases/latest)
 
 </div>
 
-**Live:** https://saas-landing.adityakumarjha5052.workers.dev
+**Live:** https://xadyo-os-landing.adityakumarjha5052.workers.dev
 
 **Playbook:** https://github.com/adityagg13/X-ADYO-OS
 
@@ -43,7 +43,7 @@ All copy lives in `src/content.ts`. The mock UI in the hero is `src/components/D
 ```sh
 bun install
 bun run dev      # http://localhost:5173 (Vite + the Worker in workerd)
-bun run build    # dist/client (assets) + dist/saas_landing/index.js (Worker)
+bun run build    # dist/client (assets) + dist/xadyo_os_landing/index.js (Worker)
 ```
 
 `bun run dev` goes through `scripts/dev.mjs`, which runs Vite on the Node runtime in `.tools/` and falls back to `node` on PATH when that is missing, so the server starts the same way on every machine. On a box with no Node on PATH at all, use `bun run dev:local` or `scripts\dev.cmd` — they locate `.tools\node-v*\node.exe` themselves. Extra arguments are forwarded (`scripts\dev.cmd --port 5174`).

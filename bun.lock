@@ -3,7 +3,7 @@
   "configVersion": 1,
   "workspaces": {
     "": {
-      "name": "saas-landing",
+      "name": "xadyo-os-landing",
       "dependencies": {
         "hono": "^4.13.0",
         "lucide-react": "^1.60.0",
