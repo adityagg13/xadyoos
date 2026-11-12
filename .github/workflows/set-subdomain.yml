@@ -1,0 +1,49 @@
+name: Set workers.dev subdomain
+
+on:
+  push:
+    branches:
+      - main
+
+concurrency:
+  group: set-subdomain
+  cancel-in-progress: true
+
+jobs:
+  set:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Read current subdomain
+        env:
+          CF_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN || secrets.CLOUDFLARE }}
+          CF_ACCOUNT: ${{ secrets.CLOUDFLARE_ACCOUNT_ID || '5fb799ad908dac71a424e363119d6953' }}
+        run: |
+          echo "== current subdomain =="
+          curl -sS -H "Authorization: Bearer $CF_TOKEN" \
+            "https://api.cloudflare.com/client/v4/accounts/$CF_ACCOUNT/workers/subdomain" | head -c 500
+          echo ""
+
+      - name: Try new subdomain candidates
+        env:
+          CF_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN || secrets.CLOUDFLARE }}
+          CF_ACCOUNT: ${{ secrets.CLOUDFLARE_ACCOUNT_ID || '5fb799ad908dac71a424e363119d6953' }}
+        run: |
+          for SUB in xadyo-os xadyo xadyoos xadyos; do
+            echo "== trying $SUB =="
+            CODE=$(curl -sS -o /tmp/sub.json -w '%{http_code}' -X PUT \
+              -H "Authorization: Bearer $CF_TOKEN" -H "Content-Type: application/json" \
+              -d "{\"subdomain\": \"$SUB\"}" \
+              "https://api.cloudflare.com/client/v4/accounts/$CF_ACCOUNT/workers/subdomain")
+            echo "HTTP $CODE"
+            head -c 400 /tmp/sub.json; echo ""
+            if [ "$CODE" = "200" ]; then
+              echo "SUBDOMAIN_SET: $SUB"
+              break
+            fi
+          done
+          echo "== final subdomain check =="
+          curl -sS -H "Authorization: Bearer $CF_TOKEN" \
+            "https://api.cloudflare.com/client/v4/accounts/$CF_ACCOUNT/workers/subdomain" | head -c 500
+          echo ""
