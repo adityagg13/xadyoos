@@ -4,13 +4,13 @@
 
 One playbook for every Windows 10 and 11 build. This repo is the marketing page for **X-ADYO OS**, a single AME Wizard playbook covering Windows 10 1809 to Windows 11 26H2.
 
-[![Live](https://img.shields.io/badge/live-xadyo--os--landing.adityakumarjha5052.workers.dev-4f8dff?style=for-the-badge&logo=cloudflare&logoColor=white)](https://xadyo-os-landing.adityakumarjha5052.workers.dev)
+[![Live](https://img.shields.io/badge/live-xadyo--os.vercel.app-4f8dff?style=for-the-badge&logo=vercel&logoColor=white)](https://xadyo-os.vercel.app)
 [![Deploy](https://github.com/adityagg13/xadyo-os-landing/actions/workflows/deploy.yml/badge.svg)](https://github.com/adityagg13/xadyo-os-landing/actions/workflows/deploy.yml)
 [![Release](https://img.shields.io/github/v/release/adityagg13/X-ADYO-OS?style=for-the-badge&color=4f8dff&label=playbook)](https://github.com/adityagg13/X-ADYO-OS/releases/latest)
 
 </div>
 
-**Live:** https://xadyo-os-landing.adityakumarjha5052.workers.dev
+**Live:** https://xadyo-os.vercel.app
 
 **Playbook:** https://github.com/adityagg13/X-ADYO-OS
 
@@ -34,9 +34,9 @@ All copy lives in `src/content.ts`. The mock UI in the hero is `src/components/D
 | Layer | Choice |
 | :-- | :-- |
 | UI | React 19 · TypeScript · Tailwind CSS 4 · motion · lucide-react |
-| Build | Vite 8 · `@cloudflare/vite-plugin` |
-| Edge | Cloudflare Worker (Hono) + static assets from `dist/client` |
-| CI | GitHub Actions → `wrangler deploy` on every push to `main` |
+| Build | Vite 8 · `@cloudflare/vite-plugin` (build output only) |
+| Hosting | Vercel — static site served from `dist/client` |
+| CI | GitHub Actions → deploy on every push to `main` |
 
 ## Run it
 
@@ -78,15 +78,9 @@ public/               static files copied as-is
 
 ## Deploy
 
-`.github/workflows/deploy.yml` builds the site and runs `wrangler deploy` on every push to `main` (or manually from the **Actions** tab). It ships the Worker in `src/worker` with the static assets from `dist/client` in front of it, so the page and `/api/*` both come from one deployment.
+The site is hosted on **Vercel** (project `xadyo-os` → https://xadyo-os.vercel.app). `vercel.json` picks the Vite framework, the `bun run build` command and the `dist/client` output directory; unknown paths fall back to `index.html`.
 
-Add one repository secret once (**Settings → Secrets and variables → Actions → New repository secret**):
-
-| Secret | Where to get it |
-| :-- | :-- |
-| `CLOUDFLARE_API_TOKEN` | Cloudflare dashboard → **My Profile → API Tokens → Create Token**. Use the **Edit Cloudflare Workers** template. |
-
-The account ID is not a credential, so it lives in the workflow as `CF_ACCOUNT_ID`. If you fork this repo, change that constant. The deploy step prints the live URL at the end.
+> Migration note: the legacy Cloudflare Worker deploy in `.github/workflows/deploy.yml` still runs until the Vercel pipeline is wired up; it is removed once `VERCEL_TOKEN` is in the repository secrets.
 
 ---
 
