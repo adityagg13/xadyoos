@@ -2,10 +2,10 @@
 
 # X-ADYO OS — landing page
 
-One playbook for every Windows 10 and 11 build. This repo is the marketing page for **X-ADYO OS**, a single AME Wizard playbook covering Windows 10 1809 to Windows 11 26H2.
+One playbook for every Windows 10 and 11 build. This repo is the marketing page and docs site for **X-ADYO OS**, a single AME Wizard playbook covering Windows 10 1809 to Windows 11 26H2.
 
 [![Live](https://img.shields.io/badge/live-xadyoos.vercel.app-4f8dff?style=for-the-badge&logo=vercel&logoColor=white)](https://xadyoos.vercel.app)
-[![Deploy](https://github.com/adityagg13/xadyo-os-landing/actions/workflows/deploy.yml/badge.svg)](https://github.com/adityagg13/xadyo-os-landing/actions/workflows/deploy.yml)
+[![Deploy](https://github.com/adityagg13/xadyoos/actions/workflows/deploy.yml/badge.svg)](https://github.com/adityagg13/xadyoos/actions/workflows/deploy.yml)
 [![Release](https://img.shields.io/github/v/release/adityagg13/X-ADYO-OS?style=for-the-badge&color=4f8dff&label=playbook)](https://github.com/adityagg13/X-ADYO-OS/releases/latest)
 
 </div>
@@ -23,9 +23,11 @@ One playbook for every Windows 10 and 11 build. This repo is the marketing page 
 - Feature bento: one playbook for every build, three presets, measured report, reversible by design
 - How it works: grab the .apbx, pick a preset, apply and read the report
 - Inside the pass: Debloat / Privacy / Performance panels with sample data
-- Metrics, FAQ and a download CTA linking to GitHub Releases
+- Metrics, FAQ and a download CTA with direct downloads (the .apbx and AME Wizard both start downloading right away — no GitHub pages in between)
+- A docs page at `/docs`: install guide, presets, modules, troubleshooting and license, matching the site's design
+- Footer with on-site doc links plus YouTube / Discord / GitHub profile icons
 
-All copy lives in `src/content.ts`. The mock UI in the hero is `src/components/DashboardMock.tsx`; the tabbed panels are in `src/sections/Showcase.tsx`.
+All copy lives in `src/content.ts`. The mock UI in the hero is `src/components/DashboardMock.tsx`; the tabbed panels are in `src/sections/Showcase.tsx`; the docs page is `src/pages/DocsPage.tsx`.
 
 > The page uses sample data in the mock panels (progress bars, before/after bars) so the layout can be seen without shipping claims. The build counts and run time are real (15 builds, 3 presets, ~12 minutes from `playbook.conf`).
 
@@ -62,19 +64,22 @@ bun run build    # dist/ (static site, ready to deploy)
 src/
   App.tsx             section stack
   content.ts          all copy on the page
+  pages/
+    DocsPage.tsx      the /docs page (pathname-routed in main.tsx)
   sections/           Nav, Hero, LogoCloud, Features, Steps, Showcase, Metrics, Faq, Cta, Footer
-  components/         DashboardMock (hero window), Aurora, Button, Logo, Reveal, SectionHeading
+  components/         DashboardMock (hero window), Aurora, Button, Logo, Reveal, SectionHeading, Socials
   lib/                small helpers
   styles.css          design tokens + utilities
 scripts/
   dev.mjs, dev.cmd    dev server launcher
-  postbuild.mjs       prunes dot-files, maps and dangling sourceMappingURL comments
+  postbuild.mjs       prunes dot-files, maps and dangling sourceMappingURL comments,
+                      and derives docs.html from index.html (serves /docs)
 public/               static files copied as-is
 ```
 
 ## Deploy
 
-The site is hosted on **Vercel** (project `xadyoos` → https://xadyoos.vercel.app). `vercel.json` picks the Vite framework, the `bun run build` command and the `dist` output directory; unknown paths fall back to `index.html`.
+The site is hosted on **Vercel** (project `xadyoos` → https://xadyoos.vercel.app). `vercel.json` picks the Vite framework, the `bun run build` command and the `dist` output directory. The `/docs` route is served by a `docs.html` derived from `index.html` in postbuild (so Vercel's cleanUrls handles it); unknown paths return 404.
 
 `.github/workflows/deploy.yml` runs the Vercel CLI on every push to `main` (or manually from the **Actions** tab). Add one repository secret once (**Settings → Secrets and variables → Actions → New repository secret**):
 
