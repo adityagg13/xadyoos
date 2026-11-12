@@ -1,6 +1,6 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "xadyo-os-landing",
+  "name": "www",
   "main": "src/worker/index.ts",
   "compatibility_date": "2026-09-29",
   "assets": {
