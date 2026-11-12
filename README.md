@@ -4,13 +4,13 @@
 
 One playbook for every Windows 10 and 11 build. This repo is the marketing page for **X-ADYO OS**, a single AME Wizard playbook covering Windows 10 1809 to Windows 11 26H2.
 
-[![Live](https://img.shields.io/badge/live-xadyo--os.vercel.app-4f8dff?style=for-the-badge&logo=vercel&logoColor=white)](https://xadyo-os.vercel.app)
+[![Live](https://img.shields.io/badge/live-xadyoos.vercel.app-4f8dff?style=for-the-badge&logo=vercel&logoColor=white)](https://xadyoos.vercel.app)
 [![Deploy](https://github.com/adityagg13/xadyo-os-landing/actions/workflows/deploy.yml/badge.svg)](https://github.com/adityagg13/xadyo-os-landing/actions/workflows/deploy.yml)
 [![Release](https://img.shields.io/github/v/release/adityagg13/X-ADYO-OS?style=for-the-badge&color=4f8dff&label=playbook)](https://github.com/adityagg13/X-ADYO-OS/releases/latest)
 
 </div>
 
-**Live:** https://xadyo-os.vercel.app
+**Live:** https://xadyoos.vercel.app
 
 **Playbook:** https://github.com/adityagg13/X-ADYO-OS
 
@@ -34,21 +34,19 @@ All copy lives in `src/content.ts`. The mock UI in the hero is `src/components/D
 | Layer | Choice |
 | :-- | :-- |
 | UI | React 19 · TypeScript · Tailwind CSS 4 · motion · lucide-react |
-| Build | Vite 8 · `@cloudflare/vite-plugin` (build output only) |
-| Hosting | Vercel — static site served from `dist/client` |
-| CI | GitHub Actions → deploy on every push to `main` |
+| Build | Vite 8 |
+| Hosting | Vercel — static site served from `dist` |
+| CI | GitHub Actions → Vercel deploy on every push to `main` |
 
 ## Run it
 
 ```sh
 bun install
-bun run dev      # http://localhost:5173 (Vite + the Worker in workerd)
-bun run build    # dist/client (assets) + dist/xadyo_os_landing/index.js (Worker)
+bun run dev      # http://localhost:5173 (Vite dev server)
+bun run build    # dist/ (static site, ready to deploy)
 ```
 
 `bun run dev` goes through `scripts/dev.mjs`, which runs Vite on the Node runtime in `.tools/` and falls back to `node` on PATH when that is missing, so the server starts the same way on every machine. On a box with no Node on PATH at all, use `bun run dev:local` or `scripts\dev.cmd` — they locate `.tools\node-v*\node.exe` themselves. Extra arguments are forwarded (`scripts\dev.cmd --port 5174`).
-
-Run the dev server with Node, not Bun: `@cloudflare/vite-plugin` asks workerd for its export types over a custom undici dispatcher that Bun bypasses, so Bun fails with `ECONNREFUSED http://localhost/`. `bun install` and `bun run build` are unaffected.
 
 ## Edit it
 
@@ -56,7 +54,6 @@ Run the dev server with Node, not Bun: `@cloudflare/vite-plugin` asks workerd fo
 - `src/App.tsx` is the section stack. Delete a line there to remove a section.
 - `src/sections/*` are the sections themselves. `Showcase.tsx` and `Features.tsx` keep their own panel content next to the layout.
 - `src/styles.css` holds the design tokens (colours, radii, fonts, keyframes). The palette is a deep navy with an electric-blue accent. Everything rounded is a squircle via `corner-shape`; true circles use `.round`. Bordered surfaces use the `depth` utility instead of a border: an inset edge plus a top highlight.
-- `src/worker/index.ts` is the Cloudflare Worker. `/api/subscribe` (email capture) is kept for future use; the page currently links straight to GitHub Releases.
 - `index.html` carries the title, description and Open Graph tags.
 
 ## Project structure
@@ -69,7 +66,6 @@ src/
   components/         DashboardMock (hero window), Aurora, Button, Logo, Reveal, SectionHeading
   lib/                small helpers
   styles.css          design tokens + utilities
-  worker/index.ts     Cloudflare Worker (/api/health, /api/subscribe)
 scripts/
   dev.mjs, dev.cmd    dev server launcher
   postbuild.mjs       prunes dot-files, maps and dangling sourceMappingURL comments
@@ -78,9 +74,13 @@ public/               static files copied as-is
 
 ## Deploy
 
-The site is hosted on **Vercel** (project `xadyo-os` → https://xadyo-os.vercel.app). `vercel.json` picks the Vite framework, the `bun run build` command and the `dist/client` output directory; unknown paths fall back to `index.html`.
+The site is hosted on **Vercel** (project `xadyoos` → https://xadyoos.vercel.app). `vercel.json` picks the Vite framework, the `bun run build` command and the `dist` output directory; unknown paths fall back to `index.html`.
 
-> Migration note: the legacy Cloudflare Worker deploy in `.github/workflows/deploy.yml` still runs until the Vercel pipeline is wired up; it is removed once `VERCEL_TOKEN` is in the repository secrets.
+`.github/workflows/deploy.yml` runs the Vercel CLI on every push to `main` (or manually from the **Actions** tab). Add one repository secret once (**Settings → Secrets and variables → Actions → New repository secret**):
+
+| Secret | Where to get it |
+| :-- | :-- |
+| `VERCEL_TOKEN` | Vercel dashboard → **Account Settings → Tokens → Create** |
 
 ---
 

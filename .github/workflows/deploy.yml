@@ -1,4 +1,4 @@
-name: Deploy to Cloudflare
+name: Deploy to Vercel
 
 on:
   push:
@@ -19,40 +19,20 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Bun
-        uses: oven-sh/setup-bun@v2
+      - name: Setup Node
+        uses: actions/setup-node@v4
         with:
-          bun-version: latest
+          node-version: 22
 
-      - name: Install dependencies
-        run: bun install --frozen-lockfile
+      - name: Install the Vercel CLI
+        run: npm i -g vercel@latest
 
-      - name: Build (assets + Worker)
-        run: bun run build
-
-      - name: Check Cloudflare credentials
+      - name: Link the project
         env:
-          CF_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN || secrets.CLOUDFLARE }}
-        run: |
-          if [ -z "$CF_TOKEN" ]; then
-            echo "::error::Add a CLOUDFLARE_API_TOKEN repository secret: Cloudflare dashboard -> My Profile -> API Tokens -> Create Token (Workers Scripts: Edit)."
-            exit 1
-          fi
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: vercel link --yes --project xadyoos --token "$VERCEL_TOKEN"
 
-          echo "::add-mask::$CF_TOKEN"
-
-          STATUS=$(curl -sS -o /tmp/verify.json -w '%{http_code}' \
-            -H "Authorization: Bearer $CF_TOKEN" \
-            https://api.cloudflare.com/client/v4/user/tokens/verify || echo 000)
-
-          if [ "$STATUS" != "200" ]; then
-            echo "::error::Cloudflare rejected the token (HTTP $STATUS). Paste only the token value, without the account id, labels or line breaks."
-            head -c 500 /tmp/verify.json || true
-            exit 1
-          fi
-
-      - name: Deploy to Cloudflare
+      - name: Deploy (production)
         env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN || secrets.CLOUDFLARE }}
-          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID || '5fb799ad908dac71a424e363119d6953' }}
-        run: bunx wrangler deploy
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: vercel deploy --prod --yes --token "$VERCEL_TOKEN"
