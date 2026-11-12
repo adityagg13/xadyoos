@@ -49,10 +49,7 @@ export function Nav() {
             </li>
           ))}
         </ul>
-        <div className="hidden items-center gap-2 md:flex">
-          <Button variant="ghost" href={nav.signIn.href} className="h-9 px-3 text-[14px]">
-            {nav.signIn.label}
-          </Button>
+        <div className="hidden items-center md:flex">
           <Button href={nav.cta.href} className="h-9 rounded-[12px] px-4 text-[14px]">
             {nav.cta.label}
           </Button>
@@ -91,11 +88,8 @@ export function Nav() {
                 </li>
               ))}
             </ul>
-            <div className="mt-2 grid grid-cols-2 gap-2 border-t border-line pt-3">
-              <Button variant="secondary" href={nav.signIn.href} onClick={() => setOpen(false)}>
-                {nav.signIn.label}
-              </Button>
-              <Button href={nav.cta.href} onClick={() => setOpen(false)}>
+            <div className="mt-2 border-t border-line pt-3">
+              <Button href={nav.cta.href} className="w-full" onClick={() => setOpen(false)}>
                 {nav.cta.label}
               </Button>
             </div>

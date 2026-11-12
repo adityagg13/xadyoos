@@ -11,7 +11,7 @@ import { cx } from '../lib/cx'
 export function Faq() {
   const [open, setOpen] = useState<number | null>(0)
   return (
-    <section className="border-t border-line py-24 sm:py-32">
+    <section id="faq" className="scroll-mt-24 border-t border-line py-24 sm:py-32">
       <Container className="max-w-[760px]">
         <SectionHeading title={faq.title} />
         <Reveal className="mt-12">

@@ -10,6 +10,11 @@ export const brand = {
 export const repo = {
   url: 'https://github.com/adityagg13/X-ADYO-OS',
   release: 'https://github.com/adityagg13/X-ADYO-OS/releases/latest',
+  // Direct download: always the newest release asset, served as an attachment
+  // (the asset itself is named X-ADYO-OS.apbx so this link never changes).
+  download: 'https://github.com/adityagg13/X-ADYO-OS/releases/latest/download/X-ADYO-OS.apbx',
+  // Official AME Wizard (AME Beta) download, verified 2026-11.
+  ameWizard: 'https://download.amelabs.net/AME%20Beta.zip',
   docs: {
     install: 'https://github.com/adityagg13/X-ADYO-OS/blob/main/docs/INSTALL.md',
     presets: 'https://github.com/adityagg13/X-ADYO-OS/blob/main/docs/PRESETS.md',
@@ -27,18 +32,17 @@ export const nav = {
     { label: 'Inside the pass', href: '#showcase' },
     { label: 'FAQ', href: '#faq' },
   ],
-  signIn: { label: 'GitHub', href: repo.url },
-  cta: { label: 'Download', href: repo.release },
+  cta: { label: 'Download', href: repo.download },
 }
 
 export const hero = {
   badge: 'v1.0.0 · open source · GPL-3.0',
-  badgeHref: repo.release,
+  badgeHref: repo.download,
   title: ['One playbook for', 'every Windows build'],
   highlight: 'every',
   description:
     'X-ADYO OS is a single AME Wizard pass for Windows 10 and 11, from 1809 to 26H2: strip the bloat, close the telemetry defaults, tune services and performance, then read a full report of every change. Backed up, gated per build, reversible.',
-  primary: { label: 'Download v1.0.0', href: repo.release },
+  primary: { label: 'Download v1.0.0', href: repo.download },
   secondary: { label: 'See what it changes', href: '#features' },
   footnote: 'Restore point first · full backups · ~12 minute run',
 }
@@ -88,7 +92,7 @@ export const steps = {
     {
       title: 'Grab the .apbx',
       description:
-        'Download X-ADYO-OS-v1.0.0.apbx from GitHub Releases and open it in AME Wizard via Playbooks → Open. No install, no account.',
+        'Download the .apbx and open it in AME Wizard via Playbooks → Open. No install, no account.',
     },
     {
       title: 'Pick a preset',
@@ -157,7 +161,7 @@ export const faq = {
     },
     {
       q: 'Where do I get it?',
-      a: 'Free from GitHub Releases, under GPL-3.0. You can also build the .apbx yourself from source with the two Python scripts in the repo.',
+      a: 'Free — the .apbx downloads straight from this page, under GPL-3.0. You can also build it yourself from source with the two Python scripts in the repo.',
     },
   ],
 }
@@ -165,9 +169,9 @@ export const faq = {
 export const cta = {
   title: 'Download X-ADYO OS',
   description:
-    'v1.0.0 is free and open source under GPL-3.0. Grab the .apbx from GitHub Releases, or read the source and build it yourself.',
-  primary: { label: 'Get the playbook', href: repo.release },
-  secondary: { label: 'Read the source', href: repo.url },
+    'v1.0.0 is free and open source under GPL-3.0. Grab the .apbx — the download starts right away — and open it in AME Wizard.',
+  primary: { label: 'Get the playbook', href: repo.download },
+  secondary: { label: 'Get AME Wizard', href: repo.ameWizard },
   note: 'Restore point first · every change logged · partial undo included',
 }
 
