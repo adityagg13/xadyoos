@@ -9,28 +9,19 @@ export const brand = {
 
 export const repo = {
   url: 'https://github.com/adityagg13/X-ADYO-OS',
-  release: 'https://github.com/adityagg13/X-ADYO-OS/releases/latest',
   // Direct download: always the newest release asset, served as an attachment
   // (the asset itself is named X-ADYO-OS.apbx so this link never changes).
   download: 'https://github.com/adityagg13/X-ADYO-OS/releases/latest/download/X-ADYO-OS.apbx',
   // Official AME Wizard (AME Beta) download, verified 2026-11.
   ameWizard: 'https://download.amelabs.net/AME%20Beta.zip',
-  docs: {
-    install: 'https://github.com/adityagg13/X-ADYO-OS/blob/main/docs/INSTALL.md',
-    presets: 'https://github.com/adityagg13/X-ADYO-OS/blob/main/docs/PRESETS.md',
-    modules: 'https://github.com/adityagg13/X-ADYO-OS/blob/main/docs/MODULES.md',
-    troubleshooting: 'https://github.com/adityagg13/X-ADYO-OS/blob/main/docs/TROUBLESHOOTING.md',
-    license: 'https://github.com/adityagg13/X-ADYO-OS/blob/main/LICENSE',
-    credits: 'https://github.com/adityagg13/X-ADYO-OS/blob/main/CREDITS.md',
-  },
 }
 
 export const nav = {
   links: [
-    { label: 'What it does', href: '#features' },
-    { label: 'How it works', href: '#how' },
-    { label: 'Inside the pass', href: '#showcase' },
-    { label: 'FAQ', href: '#faq' },
+    { label: 'What it does', href: '/#features' },
+    { label: 'How it works', href: '/#how' },
+    { label: 'Inside the pass', href: '/#showcase' },
+    { label: 'FAQ', href: '/#faq' },
   ],
   cta: { label: 'Download', href: repo.download },
 }
@@ -43,7 +34,7 @@ export const hero = {
   description:
     'X-ADYO OS is a single AME Wizard pass for Windows 10 and 11, from 1809 to 26H2: strip the bloat, close the telemetry defaults, tune services and performance, then read a full report of every change. Backed up, gated per build, reversible.',
   primary: { label: 'Download v1.0.0', href: repo.download },
-  secondary: { label: 'See what it changes', href: '#features' },
+  secondary: { label: 'See what it changes', href: '/#features' },
   footnote: 'Restore point first · full backups · ~12 minute run',
 }
 
@@ -145,7 +136,7 @@ export const faq = {
     },
     {
       q: 'Which Windows versions are supported?',
-      a: 'Windows 10 from 1809 to 22H2 and Windows 11 from 21H2 to 26H2, plus the next servicing branch. See docs/COMPATIBILITY.md for the full build list and caveats.',
+      a: 'Windows 10 from 1809 to 22H2 and Windows 11 from 21H2 to 26H2, plus the next servicing branch. Every tweak is gated per build, so the same file behaves correctly on yours.',
     },
     {
       q: 'Can I undo a pass?',
@@ -181,31 +172,22 @@ export const footer = {
     {
       title: 'Playbook',
       links: [
-        { label: 'What it does', href: '#features' },
-        { label: 'How it works', href: '#how' },
-        { label: 'Inside the pass', href: '#showcase' },
-        { label: 'FAQ', href: '#faq' },
+        { label: 'What it does', href: '/#features' },
+        { label: 'How it works', href: '/#how' },
+        { label: 'Inside the pass', href: '/#showcase' },
+        { label: 'FAQ', href: '/#faq' },
       ],
     },
     {
       title: 'Docs',
       links: [
-        { label: 'Install guide', href: repo.docs.install },
-        { label: 'Presets', href: repo.docs.presets },
-        { label: 'Modules', href: repo.docs.modules },
-        { label: 'Troubleshooting', href: repo.docs.troubleshooting },
-      ],
-    },
-    {
-      title: 'Project',
-      links: [
-        { label: 'GitHub', href: repo.url },
-        { label: 'Releases', href: repo.release },
-        { label: 'License', href: repo.docs.license },
-        { label: 'Credits', href: repo.docs.credits },
+        { label: 'Install guide', href: '/docs#install' },
+        { label: 'Presets', href: '/docs#presets' },
+        { label: 'Modules', href: '/docs#modules' },
+        { label: 'Troubleshooting', href: '/docs#troubleshooting' },
+        { label: 'License', href: '/docs#license' },
       ],
     },
   ],
   legal: `© ${new Date().getFullYear()} adityagg13 · X-ADYO OS · GPL-3.0`,
-  github: repo.url,
 }
