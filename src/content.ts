@@ -166,6 +166,12 @@ export const cta = {
   note: 'Restore point first · every change logged · partial undo included',
 }
 
+export const socials = [
+  { label: 'YouTube', href: 'https://youtube.com/@adyoisback' },
+  { label: 'Discord', href: 'https://discord.gg/FFtM4gUuHg' },
+  { label: 'GitHub', href: 'https://github.com/adityagg13' },
+]
+
 export const footer = {
   blurb: 'One AME Wizard playbook for every Windows 10 and 11 build. Transparent, reversible, open source.',
   columns: [

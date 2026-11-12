@@ -6,6 +6,7 @@ import { Container } from '../components/Container'
 import { Logo } from '../components/Logo'
 import { Reveal } from '../components/Reveal'
 import { SectionHeading } from '../components/SectionHeading'
+import { Socials } from '../components/Socials'
 import { brand, cta, hero } from '../content'
 
 const sections = [
@@ -427,11 +428,14 @@ export function DocsPage() {
             <p className="text-[13px] text-faint">
               © {new Date().getFullYear()} adityagg13 · {brand.name} · GPL-3.0
             </p>
-            <p className="text-[13px] text-faint">
-              <a href="/" className="transition-colors hover:text-fg">
-                ← Back to the site
-              </a>
-            </p>
+            <div className="flex items-center gap-3">
+              <Socials />
+              <p className="text-[13px] text-faint">
+                <a href="/" className="transition-colors hover:text-fg">
+                  ← Back to the site
+                </a>
+              </p>
+            </div>
           </div>
         </Container>
       </footer>

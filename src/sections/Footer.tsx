@@ -1,5 +1,6 @@
 import { Container } from '../components/Container'
 import { Logo } from '../components/Logo'
+import { Socials } from '../components/Socials'
 import { footer } from '../content'
 
 export function Footer() {
@@ -29,8 +30,9 @@ export function Footer() {
             </div>
           ))}
         </div>
-        <div className="mt-16 border-t border-line pt-6">
+        <div className="mt-16 flex flex-col-reverse items-start justify-between gap-4 border-t border-line pt-6 sm:flex-row sm:items-center">
           <p className="text-[13px] text-faint">{footer.legal}</p>
+          <Socials />
         </div>
       </Container>
     </footer>
