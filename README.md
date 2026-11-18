@@ -9,7 +9,7 @@
 <p>
   <a href="https://xadyoos.vercel.app"><img src="https://img.shields.io/badge/live-xadyoos.vercel.app-4f8dff?style=for-the-badge&logo=vercel&logoColor=white" alt="Live site" /></a>
   <a href="https://xadyoos.vercel.app/docs"><img src="https://img.shields.io/badge/docs-online-4f8dff?style=for-the-badge&logo=bookstack&logoColor=white" alt="Docs" /></a>
-  <a href="https://github.com/adityagg13/xadyoos/actions/workflows/deploy.yml"><img src="https://github.com/adityagg13/xadyoos/actions/workflows/deploy.yml/badge.svg" alt="Deploy status" /></a>
+  <a href="https://github.com/adityagg13/xadyoos-website/actions/workflows/deploy.yml"><img src="https://github.com/adityagg13/xadyoos-website/actions/workflows/deploy.yml/badge.svg" alt="Deploy status" /></a>
   <a href="https://github.com/adityagg13/X-ADYO-OS/releases/latest"><img src="https://img.shields.io/github/v/release/adityagg13/X-ADYO-OS?style=for-the-badge&color=4f8dff&label=playbook" alt="Playbook release" /></a>
 </p>
 
