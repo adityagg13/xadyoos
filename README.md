@@ -1,18 +1,34 @@
 <div align="center">
 
-# X-ADYO OS — landing page
+<img src="public/og-image.png" alt="X-ADYO OS — website preview" width="100%" />
 
-One playbook for every Windows 10 and 11 build. This repo is the marketing page and docs site for **X-ADYO OS**, a single AME Wizard playbook covering Windows 10 1809 to Windows 11 26H2.
+# X-ADYO OS — Website & Docs
 
-[![Live](https://img.shields.io/badge/live-xadyoos.vercel.app-4f8dff?style=for-the-badge&logo=vercel&logoColor=white)](https://xadyoos.vercel.app)
-[![Deploy](https://github.com/adityagg13/xadyoos/actions/workflows/deploy.yml/badge.svg)](https://github.com/adityagg13/xadyoos/actions/workflows/deploy.yml)
-[![Release](https://img.shields.io/github/v/release/adityagg13/X-ADYO-OS?style=for-the-badge&color=4f8dff&label=playbook)](https://github.com/adityagg13/X-ADYO-OS/releases/latest)
+**One playbook for every Windows 10 and 11 build.** This repo is the marketing page and docs site for **[X-ADYO OS](https://github.com/adityagg13/X-ADYO-OS)** — a single AME Wizard playbook covering Windows 10 1809 to Windows 11 26H2.
+
+<p>
+  <a href="https://xadyoos.vercel.app"><img src="https://img.shields.io/badge/live-xadyoos.vercel.app-4f8dff?style=for-the-badge&logo=vercel&logoColor=white" alt="Live site" /></a>
+  <a href="https://xadyoos.vercel.app/docs"><img src="https://img.shields.io/badge/docs-online-4f8dff?style=for-the-badge&logo=bookstack&logoColor=white" alt="Docs" /></a>
+  <a href="https://github.com/adityagg13/xadyoos/actions/workflows/deploy.yml"><img src="https://github.com/adityagg13/xadyoos/actions/workflows/deploy.yml/badge.svg" alt="Deploy status" /></a>
+  <a href="https://github.com/adityagg13/X-ADYO-OS/releases/latest"><img src="https://img.shields.io/github/v/release/adityagg13/X-ADYO-OS?style=for-the-badge&color=4f8dff&label=playbook" alt="Playbook release" /></a>
+</p>
+
+<p>
+  <img src="https://img.shields.io/badge/-React_19-149ECA?style=flat-square&logo=react&logoColor=white" alt="React 19" />
+  <img src="https://img.shields.io/badge/-TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white" alt="TypeScript" />
+  <img src="https://img.shields.io/badge/-Tailwind_CSS_4-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white" alt="Tailwind CSS 4" />
+  <img src="https://img.shields.io/badge/-Vite_8-6C47FF?style=flat-square&logo=vite&logoColor=white" alt="Vite 8" />
+  <img src="https://img.shields.io/badge/-Vercel-000000?style=flat-square&logo=vercel&logoColor=white" alt="Vercel" />
+</p>
+
+| | |
+| :-- | :-- |
+| 🌐 **Live site** | [xadyoos.vercel.app](https://xadyoos.vercel.app) |
+| 📖 **Docs** | [xadyoos.vercel.app/docs](https://xadyoos.vercel.app/docs) |
+| 🧩 **Playbook repo** | [adityagg13/X-ADYO-OS](https://github.com/adityagg13/X-ADYO-OS) |
+| 📥 **Download** | [latest .apbx package](https://github.com/adityagg13/X-ADYO-OS/releases/latest) |
 
 </div>
-
-**Live:** https://xadyoos.vercel.app
-
-**Playbook:** https://github.com/adityagg13/X-ADYO-OS
 
 ---
 
